@@ -1,0 +1,32 @@
+{
+  "name": "url_shortener",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shubhamthite09/url_Shortener.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shubhamthite09/url_Shortener/issues"
+  },
+  "homepage": "https://github.com/shubhamthite09/url_Shortener#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "geoip-lite": "^1.4.7",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.3.4",
+    "shortid": "^2.2.16",
+    "useragent": "^2.3.0"
+  }
+}
