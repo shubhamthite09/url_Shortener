@@ -6,7 +6,6 @@ const {userRouter} = require("./routes/userRouter")
 const cors = require("cors");
 const {connection} = require("./config/db")
 const cookieParser = require('cookie-parser')
-
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -19,7 +18,6 @@ app.use("/url",urlRouter);
 app.get("/",(req,res)=>{
     res.status(201).send({isError:false,Msg:'welcome to server'})
 })
-
 
 const PORT = process.env.PORT || 7890
 app.listen(PORT,async()=>{
