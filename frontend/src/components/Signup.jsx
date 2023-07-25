@@ -1,21 +1,40 @@
 import React,{useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Signup = () => {
+    const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
-  
-    const handlePasswordChange = (e) => {
-      setPassword(e.target.value);
-    };
-  
+    const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
+
     const toggleShowPassword = () => {
-      setShowPassword(!showPassword);
+        setShowPassword(!showPassword);
     };
+
+    const handelSubmit = async(e) => {
+        e.preventDefault();
+        try{
+            const responce = await axios.post(`${process.env.REACT_APP_HOST_URL}user/register`,{email: email, password:password,name:name});
+            if(!responce.data.isError){
+                alert(responce.data.Msg);
+                navigate("/log")
+            }else{
+                alert(responce.data.Msg);
+                navigate("/log")
+            }
+        }catch(e){
+            console.log(e.response.data.Msg);
+            alert(e.response.data.Msg);
+            navigate("/log")
+        }
+    }
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">
         <div className="w-full max-w-md p-6 bg-white rounded-lg drop-shadow-xl">
             <h2 className="text-2xl font-semibold mb-4">Sign Up</h2>
-            <form>
+            <form onSubmit={handelSubmit}>
             <div className="mb-4">
                 <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
                 User Name
@@ -23,6 +42,7 @@ const Signup = () => {
                 <input
                 type="text"
                 id="name"
+                onChange={(e)=>{setName(e.target.value)}}
                 className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-indigo-500"
                 placeholder="Your Name Here"
                 />
@@ -34,6 +54,7 @@ const Signup = () => {
                 <input
                 type="email"
                 id="email"
+                onChange={(e)=>{setEmail(e.target.value)}}
                 className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-indigo-500"
                 placeholder="example@example.com"
                 />
@@ -46,7 +67,7 @@ const Signup = () => {
                 type={showPassword ? 'text' : 'password'}
                 id="password"
                 value={password}
-                onChange={handlePasswordChange}
+                onChange={(e)=>{setPassword(e.target.value)}}
                 className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-indigo-500"
                 placeholder="Enter your password"
                 />

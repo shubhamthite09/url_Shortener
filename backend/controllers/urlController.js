@@ -12,7 +12,7 @@ const createNewUrl = async(req,res) =>{
             const shortID =shortid();
             let newUrl = new urlModel({shortId: shortID,redirectURL:url,visitHistory: [],userId:userId})
             await newUrl.save();
-            res.status(201).json({isError:false, shortLink: `${process.env.HostUrl}/url/l/${shortID}` });
+            res.status(201).json({isError:false, Msg: newUrl });
         }else{
             res.status(400).json({ isError:true,msg: "url is required" });
         }
@@ -49,6 +49,16 @@ const getInfoOfYourUrl = async(req,res)=> {
     }
 }
 
+const deleteUrl = async(req,res)=> {
+    try{
+        const {id} = req.body;
+        let newUrl = await urlModel.findByIdAndDelete({_id:id});
+        res.status(200).json({isError:false, msg:newUrl });
+    }catch(err){
+        res.status(500).send({isError: true,Msg: err.message});
+    }
+}
+
 module.exports={
-    createNewUrl,updateVisit,getInfoOfYourUrl
+    createNewUrl,updateVisit,getInfoOfYourUrl,deleteUrl
 }

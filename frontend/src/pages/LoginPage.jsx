@@ -7,7 +7,7 @@ function LoginPage() {
   return (
     <div>
         <Navbar/>
-
+        <br/>
         <Login />
         <br />
         <Fotter />

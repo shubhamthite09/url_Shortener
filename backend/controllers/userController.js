@@ -23,12 +23,14 @@ const registerNewUser = async(req,res) =>{
 const loginUser = async(req,res)=> {
     try{
         const {email,password} = req.body;
+        //console.log(email,password);
         const isAlreadyRegistered = await userModel.findOne({email});
+        //console.log(isAlreadyRegistered);
         if(isAlreadyRegistered){
             const isPasswordCorrect = await bcrypt.compare(password, isAlreadyRegistered.password);
+            //console.log(isPasswordCorrect);
             if(isPasswordCorrect){
                 let token = jwt.sign({userId: isAlreadyRegistered._id},process.env.secret);
-                //res.cookies.Token = token;
                 res.status(201).send({isError: false,Msg:"User login successfully",Token: token,Name: isAlreadyRegistered.name});
             }else{
                 res.status(403).send({isError: true,Msg:"Wrong credentials"});

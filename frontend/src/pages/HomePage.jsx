@@ -8,9 +8,7 @@ function HomePage() {
   return (
     <div>
         <Navbar/>
-
         <Home />
-
         <Fotter />
     </div>
   )

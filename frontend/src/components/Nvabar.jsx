@@ -1,17 +1,25 @@
-
 import React from 'react';
-import { useSelector} from "react-redux";
+import { useSelector,useDispatch} from "react-redux";
+import logo from "../assets/logo.png";
+import { logoutAction } from '../redux/auth/action';
 
 const Navbar = () => {
-    const isAuth = useSelector((store)=>store.isAuth);
-    //console.log(isAuth);
+    const dispatch = useDispatch();
+    const isAuth = useSelector((store)=>store.AuthReducer.isAuth);
+    const handelLogout = () =>{
+        dispatch(logoutAction());
+    }
     return (
         <nav className="bg-blue-500 p-4 flex items-center justify-between">
         <div className="text-white font-bold text-xl  hover:text-blue-200 transition duration-300 cursor-pointer">
         <a
             href="/"
             >
-            My Website
+            <img
+            src={logo}
+            alt="URL Shortener Logo"
+            className="rounded-full shadow-md h-10 w-10"
+        />
         </a>
         </div>
         <div className="flex space-x-4">
@@ -21,7 +29,7 @@ const Navbar = () => {
             >
             Dashboard
             </a>
-            {isAuth ? <button className="text-white hover:text-blue-200 transition duration-300 cursor-pointer">Logout</button> : <div className="flex space-x-4">
+            {isAuth ? <button className="text-white hover:text-blue-200 transition duration-300 cursor-pointer" onClick={handelLogout}>Logout</button> : <div className="flex space-x-4">
             <a
             href="/reg"
             className="text-white hover:text-blue-200 transition duration-300 cursor-pointer"
