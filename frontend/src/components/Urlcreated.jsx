@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import axios from "axios";
 import {useDispatch} from "react-redux";
 import { addUrl } from '../redux/UrlReducer/action';
+import {getFromInLocal} from "../utils/localStorege"
 
 const Urlcreate = () => {
     const [link,setLink] = useState("");
@@ -13,7 +14,7 @@ const Urlcreate = () => {
                 method: 'POST',
                 url: `${process.env.REACT_APP_HOST_URL}url/`,
                 headers:{
-                    "Authorization":`Bearer ${localStorage.getItem('Url_Token')}`
+                    "Authorization":`Bearer ${getFromInLocal('Url_Token')}`
                 },
                 data:{
                     url:link

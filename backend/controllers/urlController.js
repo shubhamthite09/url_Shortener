@@ -49,6 +49,16 @@ const getInfoOfYourUrl = async(req,res)=> {
     }
 }
 
+const getInfoOfOneUrl = async(req,res)=> {
+    try{
+        const {id} = req.params;
+        let newUrl = await urlModel.findOne({_id:id});
+        res.status(200).json({isError:false, msg:newUrl });
+    }catch(err){
+        res.status(500).send({isError: true,Msg: err.message});
+    }
+}
+
 const deleteUrl = async(req,res)=> {
     try{
         const {id} = req.body;
@@ -60,5 +70,5 @@ const deleteUrl = async(req,res)=> {
 }
 
 module.exports={
-    createNewUrl,updateVisit,getInfoOfYourUrl,deleteUrl
+    createNewUrl,updateVisit,getInfoOfYourUrl,deleteUrl,getInfoOfOneUrl
 }

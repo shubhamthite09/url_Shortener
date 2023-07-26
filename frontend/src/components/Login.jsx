@@ -21,8 +21,7 @@ function Login() {
             const responce = await axios.post(`${process.env.REACT_APP_HOST_URL}user/login`,{email: email, password:password});
             console.log(responce);
             if(!responce.data.isError){
-                localStorage.setItem('Url_Token',responce.data.Token);
-                dispatch(loginAction())
+                dispatch(loginAction(responce.data.Token))
                 alert(responce.data.Msg);
                 navigate("/dash")
             }else{

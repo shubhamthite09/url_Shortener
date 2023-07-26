@@ -1,7 +1,8 @@
+import { getFromInLocal } from "../../utils/localStorege";
 import {Login,LogOut} from "./actionType";
 
 const initialState ={
-    isAuth:false,
+    isAuth: getFromInLocal("isLogin") || false,
 }
 export const reducer = (state=initialState,{type,payload}) =>{
     switch(type){

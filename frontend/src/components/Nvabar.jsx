@@ -6,6 +6,7 @@ import { logoutAction } from '../redux/auth/action';
 const Navbar = () => {
     const dispatch = useDispatch();
     const isAuth = useSelector((store)=>store.AuthReducer.isAuth);
+    console.log(isAuth);
     const handelLogout = () =>{
         dispatch(logoutAction());
     }

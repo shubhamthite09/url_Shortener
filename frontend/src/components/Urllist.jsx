@@ -3,6 +3,7 @@ import axios from 'axios';
 import {useDispatch,useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom"
 import { newState,deleteUrl } from '../redux/UrlReducer/action';
+import {getFromInLocal} from "../utils/localStorege";
 
 const UrlList = () => {
     const urllist = useSelector((store)=>store.UrlReducer.urls);
@@ -19,7 +20,7 @@ const UrlList = () => {
                 method: 'GET',
                 url: `${process.env.REACT_APP_HOST_URL}url/getAnalytics`,
                 headers:{
-                    "Authorization":`Bearer ${localStorage.getItem('Url_Token')}`
+                    "Authorization":`Bearer ${getFromInLocal('Url_Token')}`
                 }
             });
             console.log(responce);
@@ -43,7 +44,7 @@ const UrlList = () => {
                 method: 'DELETE',
                 url: `${process.env.REACT_APP_HOST_URL}url/delete`,
                 headers:{
-                    "Authorization":`Bearer ${localStorage.getItem('Url_Token')}`
+                    "Authorization":`Bearer ${getFromInLocal('Url_Token')}`
                 },
                 data:{
                     id:id
