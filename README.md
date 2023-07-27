@@ -34,7 +34,7 @@ URL Shortener is a simple web application that allows users to shorten long URLs
 
 To run the URL Shortener project locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/url-shortener.git`
+1. Clone the repository: `git clone https://github.com/shubhamthite09/url-shortener.git`
 2. cd into backend `cd backend`
 3. Install the required dependencies: `npm install`
 4. Set up the MongoDB database. remote url in .env file
