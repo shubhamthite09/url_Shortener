@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch} from "react-redux";
 import axios from "axios";
 import { loginAction } from '../redux/auth/action';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
 
 function Login() {
     const dispatch = useDispatch();
@@ -15,10 +17,14 @@ function Login() {
         setShowPassword(!showPassword);
     };
 
-    const handelSubmit = async(e) => {
+    const handelSubmit = (e) => {
         e.preventDefault();
+        LoginFunction(email,password);
+    };
+
+    const LoginFunction = async(email,password)=>{
         try{
-            const responce = await axios.post(`${process.env.REACT_APP_HOST_URL}user/login`,{email: email, password:password});
+            const responce = await axios.post(`${process.env.REACT_APP_HOST_URL}user/login`,{email, password});
             console.log(responce);
             if(!responce.data.isError){
                 dispatch(loginAction(responce.data.Token))
@@ -32,7 +38,8 @@ function Login() {
             console.log(e.response.data.Msg);
             alert(e.response.data.Msg);
         }
-    };
+    }
+
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">
         <div className="w-full max-w-md p-6 bg-white rounded-lg drop-shadow-xl">
@@ -89,12 +96,17 @@ function Login() {
             </form>
             <p className="mt-6 text-center text-gray-600">Or Log In with:</p>
             <div className="flex justify-center mt-2">
-            <button className="mx-2 p-2 rounded-full text-white hover:bg-neutral-300">
-                <img src='https://img.icons8.com/?size=512&id=17949&format=png' className="h-10 w-10"></img>
-            </button>
-            <button className="mx-2 p-2 rounded-full text-white hover:bg-neutral-300">
-            <img src='https://img.icons8.com/?size=2x&id=3tC9EQumUAuq&format=png' className="h-10 w-10"></img>
-            </button>
+            <GoogleLogin
+                onSuccess={credentialResponse => {
+                    var decoded = jwt_decode(credentialResponse.credential);
+                    console.log(decoded);
+                    console.log(decoded.email);
+                    LoginFunction(decoded.email,process.env.REACT_APP_DUMMY_PASSWORD);
+                }}
+                onError={() => {
+                    console.log('Login Failed');
+                    alert('Login Failed');
+                }}/>
             </div>
         </div>
         </div>

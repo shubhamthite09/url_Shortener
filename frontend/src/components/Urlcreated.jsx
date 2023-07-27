@@ -23,6 +23,7 @@ const Urlcreate = () => {
             console.log(responce);
             if(!responce.data.isError){
                 alert("Created Successfully");
+                setLink("")
                 dispatch(addUrl(responce.data.Msg))
             }else{
                 alert(responce.data.Msg);

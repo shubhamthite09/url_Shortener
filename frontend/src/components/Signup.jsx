@@ -1,9 +1,14 @@
 import React,{useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch} from "react-redux";
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
+import { loginAction } from '../redux/auth/action';
 
 const Signup = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch();
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -13,23 +18,45 @@ const Signup = () => {
         setShowPassword(!showPassword);
     };
 
-    const handelSubmit = async(e) => {
+    const handelSubmit = (e) => {
         e.preventDefault();
+        signupFunction(name,email,password,"normal");
+    }
+
+    const signupFunction = async(name,email,password,wayOfSignup) =>{
+        console.log(wayOfSignup);
         try{
-            const responce = await axios.post(`${process.env.REACT_APP_HOST_URL}user/register`,{email: email, password:password,name:name});
+            const responce = await axios.post(`${process.env.REACT_APP_HOST_URL}user/register`,{name,email,password});
             if(!responce.data.isError){
                 alert(responce.data.Msg);
-                navigate("/log")
+                console.log(wayOfSignup);
+                if(wayOfSignup === "auth"){
+                    navigate("/dash")
+                }else{
+                    navigate("/log")
+                }
             }else{
                 alert(responce.data.Msg);
-                navigate("/log")
+                if(wayOfSignup == "auth"){
+                    return navigate("/dash")
+                }else{
+                    return navigate("/log")
+                }
             }
         }catch(e){
             console.log(e.response.data.Msg);
-            alert(e.response.data.Msg);
-            navigate("/log")
+            if(wayOfSignup == "auth"){
+                console.log("ok from the error");
+                dispatch(loginAction())
+                navigate("/dash")
+            }else{
+                alert(e.response.data.Msg);
+                navigate("/log")
+            }
+            
         }
     }
+
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">
         <div className="w-full max-w-md p-6 bg-white rounded-lg drop-shadow-xl">
@@ -93,12 +120,17 @@ const Signup = () => {
             </form>
             <p className="mt-6 text-center text-gray-600">Or sign up with:</p>
             <div className="flex justify-center mt-2">
-            <button className="mx-2 p-2 rounded-full text-white hover:bg-neutral-300">
-                <img src='https://img.icons8.com/?size=512&id=17949&format=png' className="h-10 w-10"></img>
-            </button>
-            <button className="mx-2 p-2 rounded-full text-white hover:bg-neutral-300">
-            <img src='https://img.icons8.com/?size=2x&id=3tC9EQumUAuq&format=png' className="h-10 w-10"></img>
-            </button>
+            <GoogleLogin
+                onSuccess={credentialResponse => {
+                    var decoded = jwt_decode(credentialResponse.credential);
+                    console.log(decoded);
+                    console.log(decoded.email,decoded.name);
+                    signupFunction(decoded.name,decoded.email,process.env.REACT_APP_DUMMY_PASSWORD,"auth");
+                }}
+                onError={() => {
+                    console.log('Signup Failed');
+                    alert('Signup Failed');
+                }}/>
             </div>
         </div>
         </div>
