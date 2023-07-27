@@ -14,7 +14,7 @@
 
 ## Introduction
 
-URL Shortener is a simple web application that allows users to shorten long URLs into short and easily shareable links. The project aims to provide a user-friendly interface for generating short URLs, making it convenient for users to share links on social media platforms, emails, or any other medium with character limits.
+A Laghusuchakstalam app is a web application that takes long URLs (Uniform Resource Locators) and converts them into shorter, more manageable links. The primary purpose of a URL shortener is to create concise and shareable links that are easier to remember and share, especially on platforms with character limitations like social media.
 
 ## Features
 
@@ -28,7 +28,7 @@ URL Shortener is a simple web application that allows users to shorten long URLs
 - **Frontend**: React js , Tailwind Css
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
-- **Deployment**: Netlify,render
+- **Deployment**: versel,cyclic
 
 ## Getting Started
 
@@ -45,14 +45,21 @@ To run the URL Shortener project locally, follow these steps:
 
 ## Usage
 
-1. On the homepage, enter the long URL you want to shorten.
-2. Click on the "Shorten" button to generate the short URL.
-3. The shortened URL will be displayed along with statistics (e.g., number of clicks).
-4. Users can copy the short URL and share it with others.
+1. On the homepage, and login
+2. enter the long URL you want to shorten.
+3. Click on the "Shorten" button to generate the short URL.
+4. The shortened URL will be displayed along with statistics (e.g., number of clicks).
+5. Users can copy the short URL and share it with others.
 
 ## API Endpoints
 
-there are 3
+1. user/login
+2. user/register
+3. url/create
+4. url/get
+5. url/delete
+
+Backend End Point:- https://giant-jay-fatigues.cyclic.app
 
 ## Contributing
 
