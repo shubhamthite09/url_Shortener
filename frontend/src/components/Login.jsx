@@ -25,7 +25,7 @@ function Login() {
     const LoginFunction = async(email,password)=>{
         try{
             const responce = await axios.post(`${process.env.REACT_APP_HOST_URL}user/login`,{email, password});
-            console.log(responce);
+            //console.log(responce);
             if(!responce.data.isError){
                 dispatch(loginAction(responce.data.Token))
                 alert(responce.data.Msg);
@@ -34,8 +34,8 @@ function Login() {
                 alert(responce.data.Msg);
             }
         }catch(e){
-            console.log(e.message);
-            console.log(e.response.data.Msg);
+            //console.log(e.message);
+            //console.log(e.response.data.Msg);
             alert(e.response.data.Msg);
         }
     }
@@ -89,7 +89,9 @@ function Login() {
                 Log In
             </button>
             <button
-                className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md font-medium hover:bg-indigo-600" onClick={()=>{}}
+                className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md font-medium hover:bg-indigo-600" onClick={()=>{
+                    navigate("/reg")
+                }}
             >
                 Create An Account
             </button>
@@ -99,8 +101,8 @@ function Login() {
             <GoogleLogin
                 onSuccess={credentialResponse => {
                     var decoded = jwt_decode(credentialResponse.credential);
-                    console.log(decoded);
-                    console.log(decoded.email);
+                    //console.log(decoded);
+                    //console.log(decoded.email);
                     LoginFunction(decoded.email,process.env.REACT_APP_DUMMY_PASSWORD);
                 }}
                 onError={() => {

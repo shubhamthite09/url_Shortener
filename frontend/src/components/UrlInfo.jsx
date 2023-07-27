@@ -18,7 +18,7 @@ const UrlInfo = ({id}) => {
                         "Authorization":`Bearer ${getFromInLocal('Url_Token')}`
                     }
                 });
-                console.log(responce);
+                //console.log(responce);
                 if(!responce.data.isError){
                     setPingInfo(responce.data.msg);
                     setVisit(responce.data.msg.visitHistory)
@@ -26,7 +26,7 @@ const UrlInfo = ({id}) => {
                     alert("something went wrong please try again")
                 }
             }catch(e){
-                console.log(e);
+                //console.log(e);
                 alert(e.response.data.Msg);
             } 
             }

@@ -20,7 +20,7 @@ const Urlcreate = () => {
                     url:link
                 }
             });
-            console.log(responce);
+            //console.log(responce);
             if(!responce.data.isError){
                 alert("Created Successfully");
                 setLink("")
@@ -29,8 +29,8 @@ const Urlcreate = () => {
                 alert(responce.data.Msg);
             }
         }catch(e){
-            console.log(e.message);
-            console.log(e.response.data.Msg);
+            //console.log(e.message);
+            //console.log(e.response.data.Msg);
             alert(e.response.data.Msg);
         }
     }

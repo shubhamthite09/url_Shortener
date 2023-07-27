@@ -7,7 +7,7 @@ import {getFromInLocal} from "../utils/localStorege";
 
 const UrlList = () => {
     const urllist = useSelector((store)=>store.UrlReducer.urls);
-    console.log(urllist);
+    //console.log(urllist);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     useEffect(()=>{
@@ -23,7 +23,7 @@ const UrlList = () => {
                     "Authorization":`Bearer ${getFromInLocal('Url_Token')}`
                 }
             });
-            console.log(responce);
+            //console.log(responce);
             if(!responce.data.isError){
                 dispatch(newState(responce.data.msg));
             }else{
@@ -50,7 +50,7 @@ const UrlList = () => {
                     id:id
                 }
             });
-            console.log(responce);
+            //console.log(responce);
             if(!responce.data.isError){
                 alert("ok");
                 dispatch(deleteUrl(id))

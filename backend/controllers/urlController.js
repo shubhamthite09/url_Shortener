@@ -3,12 +3,13 @@ const {urlModel} = require("../models/urlModel");
 const shortid = require("shortid");
 const geoip = require('geoip-lite');
 const useragent = require('useragent');
-
+const {checkUrl} = require("../utils/checkUrl");
 
 const createNewUrl = async(req,res) =>{
     try{
-        const {url,userId} = req.body;
+        let {url,userId} = req.body;
         if (url){
+            url = checkUrl(url);
             const shortID =shortid();
             let newUrl = new urlModel({shortId: shortID,redirectURL:url,visitHistory: [],userId:userId})
             await newUrl.save();
@@ -32,7 +33,7 @@ const updateVisit = async(req,res)=> {
         const entry = await urlModel.findOneAndUpdate({shortId:shortId},{ $push: { visitHistory: {timestamp: Date.now(),ipAddress:ipAddress,location:location,device:device}
             ,}
         ,});
-        console.log(entry.redirectURL);
+        //console.log(entry.redirectURL);
         res.redirect(entry.redirectURL);
     }catch(err){
         res.status(500).send({isError: true,Msg: err.message});

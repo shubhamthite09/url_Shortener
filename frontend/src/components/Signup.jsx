@@ -5,6 +5,7 @@ import { useDispatch} from "react-redux";
 import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
 import { loginAction } from '../redux/auth/action';
+import {LoginFunction} from "../utils/login";
 
 const Signup = () => {
     const navigate = useNavigate()
@@ -24,36 +25,31 @@ const Signup = () => {
     }
 
     const signupFunction = async(name,email,password,wayOfSignup) =>{
-        console.log(wayOfSignup);
+        //console.log(wayOfSignup);
         try{
             const responce = await axios.post(`${process.env.REACT_APP_HOST_URL}user/register`,{name,email,password});
-            if(!responce.data.isError){
-                alert(responce.data.Msg);
-                console.log(wayOfSignup);
-                if(wayOfSignup === "auth"){
-                    navigate("/dash")
-                }else{
-                    navigate("/log")
-                }
-            }else{
-                alert(responce.data.Msg);
-                if(wayOfSignup == "auth"){
-                    return navigate("/dash")
-                }else{
-                    return navigate("/log")
-                }
-            }
-        }catch(e){
-            console.log(e.response.data.Msg);
-            if(wayOfSignup == "auth"){
-                console.log("ok from the error");
-                dispatch(loginAction())
+            if(!responce.data.isError && wayOfSignup === "auth"){
+                let token = await LoginFunction(email,password);
+                dispatch(loginAction(token));
                 navigate("/dash")
+            }else if(!responce.data.isError){
+                alert(responce.data.Msg)
+                navigate("/log")
             }else{
-                alert(e.response.data.Msg);
+                alert(responce.data.Msg);
                 navigate("/log")
             }
-            
+        }catch(e){
+            if(wayOfSignup == "auth"){
+                //console.log("in the error message");
+                let token = await LoginFunction(email,password);
+                //console.log(token);
+                token ? dispatch(loginAction(token)) : console.log(e.response.data.Msg);
+                navigate("/dash")
+            }else{
+                //console.log(e.response.data.Msg);
+                navigate("/log")
+            }
         }
     }
 
@@ -123,8 +119,8 @@ const Signup = () => {
             <GoogleLogin
                 onSuccess={credentialResponse => {
                     var decoded = jwt_decode(credentialResponse.credential);
-                    console.log(decoded);
-                    console.log(decoded.email,decoded.name);
+                    //console.log(decoded);
+                    //console.log(decoded.email,decoded.name);
                     signupFunction(decoded.name,decoded.email,process.env.REACT_APP_DUMMY_PASSWORD,"auth");
                 }}
                 onError={() => {
